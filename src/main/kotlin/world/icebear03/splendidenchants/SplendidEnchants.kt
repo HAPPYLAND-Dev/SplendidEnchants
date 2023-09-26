@@ -7,6 +7,7 @@ import org.serverct.parrot.parrotx.mechanism.Reloadables
 import org.serverct.parrot.parrotx.ui.registry.MenuFunctions
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
+import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.onlinePlayers
 import world.icebear03.splendidenchants.api.internal.FurtherOperation
 import world.icebear03.splendidenchants.api.internal.colorify
@@ -72,6 +73,7 @@ object SplendidEnchants : Plugin() {
                 Reloadables.execute()
 
                 DataLoader.load()
+                Bukkit.getMessenger().registerOutgoingPluginChannel(BukkitPlugin.getInstance(), "slime:old")
             }.onFailure {
                 I18n.error(I18n.INIT, "SplendidEnchants", it)
             }

@@ -1,5 +1,8 @@
 package world.icebear03.splendidenchants.listener.mechanism
 
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.enchantment.EnchantItemEvent
@@ -11,9 +14,12 @@ import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.module.chat.colored
+import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.onlinePlayers
 import world.icebear03.splendidenchants.api.*
 import world.icebear03.splendidenchants.api.internal.YamlUpdater
+import world.icebear03.splendidenchants.api.internal.colorify
 import world.icebear03.splendidenchants.enchant.SplendidEnchant
 import world.icebear03.splendidenchants.enchant.data.Rarity
 import world.icebear03.splendidenchants.enchant.data.limitation.CheckType
@@ -100,14 +106,19 @@ object AttainListener {
             val rarity = enchant.rarity
             celebrateNotice[rarity]?.let { lines ->
                 lines.forEach { line ->
-                    val type = line.split(":")[0]
-                    val text = line.split(":")[1].replace("player" to player.name, "enchant" to enchant.display(level))
-                    onlinePlayers.forEach {
-                        when (type) {
-                            "actionbar" -> it.sendActionBar(text)
-                            "message" -> it.sendMessage(text)
-                            "title" -> it.sendTitle(text.split(";")[0], text.split(";")[1])
-                        }
+                    val type = line.substringBefore(':')
+                    val text = line.substringAfter(':').replace("player" to player.name, "enchant" to enchant.display(level)).colored()
+//                    onlinePlayers.forEach {
+//                        when (type) {
+//                            "actionbar" -> it.sendActionBar(text)
+//                            "message" -> it.sendMessage(text)
+//                            "title" -> it.sendTitle(text.split(";")[0], text.split(";")[1])
+//                        }
+//                    }
+// 移除不需要的类型并添加 V4 消息系统支持
+
+                    when (type) {
+                        "message" -> pullMessage(text)
                     }
                 }
             }
@@ -153,4 +164,8 @@ object AttainListener {
         if (player.hasPermission(perm)) expression.calcToInt("chance" to origin)
         else origin.roundToInt()
     }.coerceAtLeast(0)
+
+    private fun pullMessage(string: String) {
+        onlinePlayers.firstOrNull()?.sendPluginMessage(BukkitPlugin.getInstance(), "slime:old", string.toByteArray()) ?: return
+    }
 }
