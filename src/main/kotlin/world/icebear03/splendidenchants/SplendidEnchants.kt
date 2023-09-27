@@ -73,6 +73,8 @@ object SplendidEnchants : Plugin() {
                 Reloadables.execute()
 
                 DataLoader.load()
+                AntiIllegalItem.load()
+
                 Bukkit.getMessenger().registerOutgoingPluginChannel(BukkitPlugin.getInstance(), "slime:old")
             }.onFailure {
                 I18n.error(I18n.INIT, "SplendidEnchants", it)
@@ -122,6 +124,8 @@ object SplendidEnchants : Plugin() {
                 MenuFunctions.unregister("Back")
                 MenuFunctions.register("Back", false) { back }
                 Reloadables.execute()
+
+                AntiIllegalItem.load()
             }.onFailure {
                 I18n.error(I18n.INIT, "SplendidEnchants", it)
             }
