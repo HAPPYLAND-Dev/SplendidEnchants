@@ -62,7 +62,11 @@ object AnvilListener {
 
         val result = anvil(a, b, player, renameText)
 
-        result.first ?: return
+        result.first ?: let {
+            event.result = null
+            inv.result = null
+            return
+        }
         event.result = result.first
         inv.repairCost = result.second
         inv.repairCostAmount = result.third
@@ -86,7 +90,7 @@ object AnvilListener {
             }
         }
         if (b != null)
-            if (b.canRepair(a) || typeB == typeA) {
+            if ((b.canRepair(a) || typeB == typeA) && a.type.maxDurability != 0.toShort()) {
                 val pair = durabilityFixed(typeA, typeB, b.amount, a.damage, b.damage)
                 result.damage = maxOf(0, result.damage - pair.first)
                 cost += repairCost
@@ -102,6 +106,7 @@ object AnvilListener {
                 if (checked.first) tmp.addEt(it, b.etLevel(it))
                 checked.first
             }.forEach { (enchant, lv) ->
+                println(enchant)
                 val old = a.etLevel(enchant)
                 val new = if (old < lv) {
                     if (old <= 0) cost += newEnchantExtraCost
