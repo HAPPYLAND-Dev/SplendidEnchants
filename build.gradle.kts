@@ -34,7 +34,7 @@ taboolib {
     install("module-ui")
     install("platform-bukkit")
     classifier = null
-    version = "6.0.12-15"
+    version = "6.0.12-35"
 
     relocate("org.serverct.parrot.parrotx", "world.icebear03.splendidenchants.taboolib.parrotx")
     relocate("com.mcstarrysky.starrysky", "world.icebear03.splendidenchants.taboolib.starrysky")
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
 
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11605:11605")
@@ -54,8 +54,8 @@ dependencies {
     compileOnly("ink.ptms.core:v11904:11904:universal")
     compileOnly("ink.ptms.core:v11802:11802:universal")
     compileOnly("ink.ptms.core:v11701:11701:universal")
-    compileOnly("ink.ptms.core:v12001:12001:mapped")
-    compileOnly("ink.ptms.core:v12001:12001:universal")
+    compileOnly("ink.ptms.core:v12002:12002:mapped")
+    compileOnly("ink.ptms.core:v12002:12002:universal")
 
     taboo("org.tabooproject.taboolib:module-parrotx:1.5.4") // Module-ParrotX
     taboo("com.mcstarrysky.taboolib:module-starrysky:1.0.12-6") // Module-StarrySky
@@ -74,7 +74,7 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         freeCompilerArgs = listOf("-Xjvm-default=all")
     }
 }
