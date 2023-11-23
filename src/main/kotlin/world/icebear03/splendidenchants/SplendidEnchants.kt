@@ -28,6 +28,7 @@ import world.icebear03.splendidenchants.ui.internal.back
 import kotlin.system.measureTimeMillis
 
 object SplendidEnchants : Plugin() {
+
     override fun onActive() {
         console().sendMessage("Loading supports for other plugins...")
         if (Bukkit.getPluginManager().isPluginEnabled("TrChat")) {

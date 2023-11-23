@@ -1,15 +1,31 @@
 package world.icebear03.splendidenchants.api.internal.nms
 
+import com.mcstarrysky.starrysky.function.emptyItemStack
+import com.mojang.brigadier.StringReader
+import net.md_5.bungee.api.chat.hover.content.Item
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import taboolib.library.reflex.Reflex.Companion.invokeConstructor
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.NMSItem
+import taboolib.module.nms.nmsClass
 import world.icebear03.splendidenchants.api.isNull
 import world.icebear03.splendidenchants.enchant.EnchantDisplayer
 
 abstract class NMS {
 
-    /** 为原版的 MerchantRecipeList 的物品显示更多附魔 **/
+    /** 为原版的 MerchantRecipeList 的物品显示更多附魔 */
     abstract fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any
+
+    /** 获取 BungeeCord 物品 Json */
+    abstract fun itemToJson(item: Item): String
+
+    /** 获取 Bukkit 物品 Json */
+    abstract fun bkItemToJson(item: ItemStack): String
+
+    /** 从 Json 获取 Bukkit 物品 */
+    abstract fun jsonToItem(json: String): ItemStack
 }
 
 class NMSImpl : NMS() {
@@ -63,6 +79,36 @@ class NMSImpl : NMS() {
             }
             // Unsupported
             else -> error("Unsupported version.")
+        }
+    }
+
+    override fun itemToJson(item: Item): String {
+        return runCatching {
+            nmsClass("MojangsonParser").invokeConstructor(StringReader(item.tag.nbt))
+                .invokeMethod<Any>(if (MinecraftVersion.majorLegacy >= 11800) "readSingleStruct" else "a")?.toString() ?: "{}"
+        }.getOrElse {
+            println("itemToJson failed: $it")
+            "{}"
+        }
+    }
+
+    override fun bkItemToJson(item: ItemStack): String {
+        return runCatching {
+            NMSItem.asNMSCopy(item).invokeMethod<Any>("save", nmsClass("NBTTagCompound").newInstance()).toString()
+        }.getOrElse {
+            println("bkItemToJson failed: $it")
+            "{}"
+        }
+    }
+
+    override fun jsonToItem(json: String): ItemStack {
+        return runCatching {
+            val nbt = nmsClass("MojangsonParser").invokeMethod<Any>(if (MinecraftVersion.majorLegacy >= 11800) "parseTag" else "parse", json, isStatic = true)
+            println("parse出来的 java class: " + nbt?.javaClass?.name)
+            NMSItem.asBukkitCopy(nmsClass("ItemStack").invokeConstructor(nbt))
+        }.getOrElse {
+            println("jsonToItem failed: $it")
+            emptyItemStack
         }
     }
 }
