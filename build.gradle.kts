@@ -35,7 +35,7 @@ taboolib {
     install("module-ui")
     install("platform-bukkit")
     classifier = null
-    version = "6.0.12-35"
+    version = "6.0.12-40"
 
     relocate("org.serverct.parrot.parrotx", "world.icebear03.splendidenchants.taboolib.parrotx")
     relocate("com.mcstarrysky.starrysky", "world.icebear03.splendidenchants.taboolib.starrysky")
