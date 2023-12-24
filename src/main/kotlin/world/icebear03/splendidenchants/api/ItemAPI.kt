@@ -6,9 +6,12 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
 import org.serverct.parrot.parrotx.function.textured
+import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 import taboolib.platform.util.isAir
 import taboolib.platform.util.modifyMeta
 import world.icebear03.splendidenchants.enchant.SplendidEnchant
+import java.util.*
 
 var ItemStack.name
     get() = itemMeta?.displayName
@@ -75,8 +78,12 @@ fun ItemStack.skull(skull: String?): ItemStack {
     skull ?: return this
     if (isNull) return this
     if (itemMeta !is SkullMeta) return this
-    return if (skull.length <= 20) modifyMeta<SkullMeta> { owner = skull }
-    else textured(skull)
+    return if (skull.length <= 20) buildItem(this) {
+        skullOwner = skull
+    }
+    else buildItem(this) {
+        skullTexture = ItemBuilder.SkullTexture(skull, UUID.fromString("00000000-0000-0000-0000-000000000000"))
+    }
 }
 
 val ItemStack?.isNull get() = this?.isAir ?: true
