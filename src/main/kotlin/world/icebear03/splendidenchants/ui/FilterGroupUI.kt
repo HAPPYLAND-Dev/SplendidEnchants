@@ -99,7 +99,7 @@ object FilterGroupUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.DROP -> {
                     EnchantFilter.clearFilter(player, EnchantFilter.FilterType.GROUP, group)
                     open(player)
                 }

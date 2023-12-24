@@ -100,7 +100,7 @@ object FilterTargetUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.DROP -> {
                     EnchantFilter.clearFilter(player, EnchantFilter.FilterType.TARGET, target)
                     open(player)
                 }

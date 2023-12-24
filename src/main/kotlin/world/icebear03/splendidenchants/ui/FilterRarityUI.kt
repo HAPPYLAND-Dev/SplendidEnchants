@@ -100,7 +100,7 @@ object FilterRarityUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.DROP -> {
                     EnchantFilter.clearFilter(player, EnchantFilter.FilterType.RARITY, rarity)
                     open(player)
                 }

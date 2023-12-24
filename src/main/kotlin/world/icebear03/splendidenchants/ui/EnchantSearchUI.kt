@@ -90,7 +90,7 @@ object EnchantSearchUI {
         onClick { (_, _, _, event, _) ->
             val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.DROP) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.RARITY)
                 open(player)
             } else FilterRarityUI.open(event.clicker)
@@ -103,7 +103,7 @@ object EnchantSearchUI {
         onClick { (_, _, _, event, _) ->
             val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.DROP) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.TARGET)
                 open(player)
             } else FilterTargetUI.open(event.clicker)
@@ -116,7 +116,7 @@ object EnchantSearchUI {
         onClick { (_, _, _, event, _) ->
             val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.DROP) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.GROUP)
                 open(player)
             } else FilterGroupUI.open(event.clicker)
@@ -146,7 +146,7 @@ object EnchantSearchUI {
                     }
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.DROP -> {
                     EnchantFilter.clearFilter(player, EnchantFilter.FilterType.STRING)
                     open(player)
                 }
