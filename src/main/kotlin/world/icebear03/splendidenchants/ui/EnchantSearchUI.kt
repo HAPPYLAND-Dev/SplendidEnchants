@@ -88,9 +88,8 @@ object EnchantSearchUI {
     private val filter_rarity = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("rarities", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.DROP) {
+            if (event.clickEvent().isShiftClick) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.RARITY)
                 open(player)
             } else FilterRarityUI.open(event.clicker)
@@ -101,9 +100,8 @@ object EnchantSearchUI {
     private val filter_target = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("targets", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.DROP) {
+            if (event.clickEvent().isShiftClick) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.TARGET)
                 open(player)
             } else FilterTargetUI.open(event.clicker)
@@ -114,9 +112,8 @@ object EnchantSearchUI {
     private val filter_group = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("groups", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.DROP) {
+            if (event.clickEvent().isShiftClick) {
                 EnchantFilter.clearFilter(player, EnchantFilter.FilterType.GROUP)
                 open(player)
             } else FilterGroupUI.open(event.clicker)
@@ -146,7 +143,7 @@ object EnchantSearchUI {
                     }
                 }
 
-                ClickType.DROP -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     EnchantFilter.clearFilter(player, EnchantFilter.FilterType.STRING)
                     open(player)
                 }

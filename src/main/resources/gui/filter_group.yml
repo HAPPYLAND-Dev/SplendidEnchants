@@ -62,8 +62,8 @@ template:
     name: "&f{name} &7(&a{amount}&7)"
     lore:
       - "&8| &7左击 &a✓只看适合此类物品的附魔"
-      - "&8| &7Q键 &e੦清除当前筛选"
       - "&8| &7右击 &c✗不看适合此类物品的附魔"
+      - "&8| &7Shift+点击 &e੦清除当前筛选"
     feature:
       - ==: Functional
         keyword: FilterGroup:filter
